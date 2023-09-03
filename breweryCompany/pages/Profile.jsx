@@ -144,7 +144,7 @@ const Profile = ({ navigation }) => {
                             </TouchableOpacity>
                     </View>
                     <View >
-                        <TouchableOpacity onPress={() => navigation.navigate("OrderHistory")}  style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
+                        <TouchableOpacity onPress={() => navigation.navigate("ResetPassword",{email: user?.email})}  style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
                             <Text style={[ styles.name, styles.textContainer]}>Reset password</Text>
                             <RIcon name="chevron-forward" color="#7f7f7f" size={25} />
                             </TouchableOpacity>

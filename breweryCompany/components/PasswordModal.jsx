@@ -79,7 +79,7 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
                                 <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
                                     <Text style={styles.buttonText}>Login</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.registerText} onPress={() => navigation.navigate('Register')}>Forgot Password?</Text>
+                                <Text style={styles.registerText} onPress={() => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
                             </View>
                         </View>
                         <View>

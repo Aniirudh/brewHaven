@@ -21,6 +21,8 @@
   import OrderHistory from './pages/OrderHistory';
   import CurrentOrders from './pages/CurrentOrders';
   import FoodDetails from './pages/FoodDetails';
+  import ResetPassword from './pages/ResetPassword';
+  import ForgotPassword from './pages/ForgotPassword';
 
   const App = () => {
 
@@ -48,6 +50,8 @@
           <Stack.Screen name="BeerDetails" component={BeerDetails}/>
           <Stack.Screen name="CurrentOrders" component={CurrentOrders}/>
           <Stack.Screen name="FoodDetails" component={FoodDetails}/>
+          <Stack.Screen name="ResetPassword" component={ResetPassword}/>
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
           </Stack.Navigator>
       
       </NavigationContainer>

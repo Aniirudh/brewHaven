@@ -9,7 +9,7 @@ import Location from './Location'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrigin, selectOriginalLocation,setOrigin } from '../features/navSlice'
 
-const Header = ({navigation}) => {
+const Header = ({navigation, beer}) => {
 
     const location=useSelector(selectOriginalLocation)
     const dispatch=useDispatch()
@@ -29,7 +29,7 @@ const Header = ({navigation}) => {
                     <UIcon name="user-circle-o" color='#8f8f8f' size={35} style={styles.profileImage}/>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={[styles.searchbar, styles.shadowProp]} onPress={()=>navigation.navigate('Search')}>
+            <TouchableOpacity style={[styles.searchbar, styles.shadowProp]} onPress={()=>navigation.navigate('Search', {data:beer})}>
                 <Icon name="search" size={30} color='#ED5A6B'/>
                 <Text style={{color:"#6f6f6f",fontFamily:"Metropolis-Medium",marginHorizontal:12,fontSize:16}}>Search...</Text>
             </TouchableOpacity>

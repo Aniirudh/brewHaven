@@ -13,6 +13,7 @@ import Food from '../components/Food';
 const Home = ({ navigation }) => {
     const authToken =useSelector(selectAuthToken)
     const [beer, setBeer] = useState([]);
+    console.log(authToken.authToken)
 console.log("Token in home",authToken.authToken)
 useEffect(() => {
     if (authToken.authToken) {
@@ -37,17 +38,6 @@ useEffect(() => {
       }
     }, [authToken.authToken]);
 
-// const handleLogout = async () => {
-//     try {
-//       // Clear AsyncStorage
-//       await AsyncStorage.clear()      
-//       // Navigate to the login screen
-//       navigation.replace('Login'); // Replace 'Login' with your login screen name
-//     } catch (error) {
-//       console.error('Error during logout:', error);
-//     }
-//   };
-  
 
     const pricing = 450;
     const renderItem = ({ item }) => (
@@ -66,11 +56,8 @@ useEffect(() => {
 
     return (
         <View style={{ flex: 1 }}>
-            <Header navigation={navigation} />
+            <Header navigation={navigation} beer={beer}/>
             
-            {/* <TouchableOpacity onPress={()=>handleLogout()}>
-        <Text style={{color:"black"}}>Logout</Text>
-      </TouchableOpacity> */}
             <FlatList
                 data={beer}
                 ListHeaderComponent={() => (

@@ -30,8 +30,8 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
             if (responseData.jwrToken) {
                 const TOKEN = responseData.jwrToken;
 
-                await AsyncStorage.setItem('authToken', JSON.stringify(TOKEN));
-                await AsyncStorage.setItem('userId', JSON.stringify(responseData.userId));
+                await AsyncStorage.setItem('authToken', TOKEN);
+                await AsyncStorage.setItem('userId', responseData.userId.toString());
 
                 console.log("token in login", TOKEN)
                 dispatch(setAuthToken({ authToken: TOKEN }));

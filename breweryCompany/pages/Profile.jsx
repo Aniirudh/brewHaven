@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector } from 'react-redux';
 import { selectAuthToken, selectUserId } from '../features/userSlice';
 
+
 const Profile = ({ navigation }) => {
     const authToken = useSelector(selectAuthToken);
     const userId = useSelector(selectUserId)
@@ -62,6 +63,20 @@ const Profile = ({ navigation }) => {
         }
     };
 
+    const logoutHandler = async () => {
+        // Clear AsyncStorage
+        try {
+          await AsyncStorage.clear();
+          // Dispatch actions to clear Redux state if needed
+          // ...
+    
+          // Navigate to the login screen
+          navigation.replace('Login'); // Replace 'Login' with your login screen name
+        } catch (error) {
+          console.error('Error during logout:', error);
+        }
+      };
+
 
     console.log(user)
     return (
@@ -111,6 +126,9 @@ const Profile = ({ navigation }) => {
                         <Text onPress={()=>navigation.navigate("OrderHistory")} style={[styles.text, styles.name, styles.textContainer]}>Past orders</Text>
                     </View>
                 </View>
+                <TouchableOpacity style={styles.logoutButton} onPress={logoutHandler}>
+          <Text style={styles.logoutButtonText}>Logout</Text>
+        </TouchableOpacity>
             </View>
 
 
@@ -170,4 +188,18 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         alignItems: "flex-end"
     },
+    logoutButton: {
+        backgroundColor: 'red',
+        marginHorizontal: 15,
+        marginTop: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+      },
+      logoutButtonText: {
+        color: 'white',
+        fontFamily: 'Metropolis-SemiBold',
+        fontSize: 16,
+        textTransform: 'uppercase',
+      },
 })

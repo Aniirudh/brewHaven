@@ -58,16 +58,29 @@ const ViewCart = ({ navigation }) => {
 
     const handleCheckout = useCallback(async () => {
         // Prepare the cart items array from the groupedItemsInBasket
-        const cartItems = Object.entries(groupedItemsInBasket).map(([key, items]) => ({
-            beerId: items[0]?.actualBeerId,
-            beerQuantity: items.length,
-            beerVolumeInMl: items[0]?.size_ml,
-            beerAmount: items[0]?.price * items.length,
-            amountOfEachBeer: items[0]?.price,
-        }));
+        const cartItems = []
+        for (const [key, items] of Object.entries(groupedItemsInBasket)){
+            
+            if (items[0]?.actualBeerId) {
+                cartItems.push({
+                  beerId: items[0]?.actualBeerId, // Convert the key to an integer if needed
+                  beerQuantity: items.length,
+                  beerVolumeInMl: items[0]?.size_ml,
+                  beerAmount: items[0]?.price * items.length,
+                  amountOfEachBeer: items[0]?.price
+                });
+              } else if (items[0]?.foodId) {
+                cartItems.push({
+                  foodId: items[0]?.foodId, // Convert the key to an integer if needed
+                  foodQuantity: items.length,
+                  foodAmount: items[0]?.price * items.length,
+                  amountOfEachFood: items[0]?.price
+                });
+              }
+        };
 
 console.log("CART", cartItems)
-        const totalAmount = cartItems.reduce((total, item) => total + item.beerAmount + 150, 0);
+const totalAmount = cartItems.reduce((total, item) => total + (item.beerAmount || 0) + (item.foodAmount || 0) + 150, 0.0);
 
         const requestBody = {
             userId: userId.userId,

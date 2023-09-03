@@ -32,65 +32,60 @@ const OrderHistory = ({navigation}) => {
         }
     }, [authToken.authToken]);
 
-    console.log(order[0]?.lat)
-    console.log(order[0]?.lng)
-    console.log(order[0]?.address)
+    // console.log(order[0].cartItems[0])
 
     const renderItem = ({ item }) => {
         if (!item || !item.cartItems) {
-            return null; // Return null if item or cartItems is undefined
+          return null; // Return null if item or cartItems is undefined
         }
+      
         return (
-            <View style={styles.orderContainer}>
-                <View style={{flexDirection:"row", alignItems:"center", justifyContent:"space-between"}}>
-                    <Text style={styles.orderHeaderText}>Order #{item.id}  </Text>
-                    <View style={{flexDirection:"row", alignItems:"center"}}>
-                    <RIcon name="currency-rupee" color="#2f2f2f" size={15} />
-                    <Text style={{ color: "black", fontFamily: "Metropolis-SemiBold" }}>{item.totalAmount}</Text>
-                    </View></View>
-                {item.cartItems.map((cartItem, index) => (
-                    <View key={index} style={styles.cartItemContainer}>
-
-                        {cartItem.beer &&
-                            <View style={{ flexDirection: "row", alignItems:"center" }}>
-                                <Text style={{ color: 'black', fontFamily: "Metropolis-SemiBold" }}>{cartItem.beer.name} </Text>
-                                <Text style={{ color: "#9f9f9f", fontFamily: "Metropolis-Medium" }}>x{cartItem.beerQuantity}</Text>
-                            </View>}
-                    </View>
-                ))}
-                {/* onPress={(data, details = null) => {
-                        dispatch(
-                            setOrigin({
-                                
-                            location: details.geometry.location,
-                            description: data.description,
-                            
-                        }))
-                    }} */}
-                    {/* dispatch(
-            setOrigin({
-                location: { "lat": region.latitude, "lng": region.longitude },
-                description: userLocation,
-            }))
-        navigation.navigate('ViewCart') */}
-                {/* <Text style={{ color: 'black' }}>Total Amount: {item.totalAmount}</Text> */}
-                <Text style={{ color: 'black' ,fontFamily:"Metropolis-Thin"}}>Delivery Address: {item.address}</Text>
-                <TouchableOpacity onPress={()=>{
-                                                // dispatch(
-                                                //     setOrigin({
-                                                        
-                                                //     location: {"lat": item?.lat, "lng": item?.lng},
-                                                //     description: item?.address,
-                                                    
-                                                // }))
-                                                navigation.navigate('PlacingOrder',{origin:{ location: {lat: item?.lat, lng: item?.lng},
-                                                description: item?.address,}})
-                    }}>
-                <Text style={{ color: 'black' ,fontFamily:"Metropolis-Thin"}}>TRACK ORDER</Text>
-                </TouchableOpacity>
+          <View style={styles.orderContainer}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+              <Text style={styles.orderHeaderText}>Order #{item.id}  </Text>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <RIcon name="currency-rupee" color="#2f2f2f" size={15} />
+                <Text style={{ color: "black", fontFamily: "Metropolis-SemiBold" }}>{item.totalAmount}</Text>
+              </View>
             </View>
+      
+            <View style={styles.cartItemContainer}>
+              {item.cartItems.map((cartItem, index) => (
+                <View key={index} style={{ flexDirection: "row", alignItems: "center" }}>
+                  {cartItem.beer && (
+                    <>
+                      <Text style={{ color: 'black', fontFamily: "Metropolis-Medium" }}>{"("}{cartItem.beerQuantity}x{")"} {cartItem.beer.name} {cartItem.beerVolumeInMl}ml,</Text>
+                      {cartItem.food && (
+                        <Text style={{ color: 'black', fontFamily: "Metropolis-Medium" }}>{"("}{cartItem.foodQuantity}x{")"} {cartItem.food.name}, </Text>
+                      )}
+                    </>
+                  )}
+      
+                  {cartItem.food && (
+                    <Text style={{ color: 'black', fontFamily: "Metropolis-Medium" }}>{"("}{cartItem.foodQuantity}x{")"} {cartItem.food.name}</Text>
+                  )}
+                </View>
+              ))}
+            </View>
+      
+            <Text style={{ color: 'black', fontFamily: "Metropolis-Thin" }}>Delivery Address: {item.address}</Text>
+      
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('PlacingOrder', {
+                  origin: {
+                    location: { lat: item?.lat, lng: item?.lng },
+                    description: item?.address,
+                  }
+                });
+              }}>
+              {/* <Text style={{ color: 'black', fontFamily: "Metropolis-Thin" }}>TRACK ORDER</Text> */}
+            </TouchableOpacity>
+          </View>
         );
-    };
+      };
+      
+      
 
     return (
         <View style={{ flex: 1 }}>
@@ -116,7 +111,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     orderContainer: {
-        height: 160,
+        minHight: 160,
         marginHorizontal: 10,
         marginVertical: 5,
         borderRadius: 10,
@@ -124,6 +119,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         paddingHorizontal: 10,
         justifyContent: 'center',
+        paddingVertical:10
     },
     orderHeaderText: {
         fontSize: 10,
@@ -137,5 +133,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 2,
+        flexWrap: 'wrap', 
     },
 })

@@ -36,10 +36,10 @@ const Search = ({ navigation, route }) => {
                 setInput={setInput}
             />
             <View style={styles.suggestionsContainer}>
-                <Text style={styles.header}>Top Searches in Beer</Text>
+                <Text style={styles.header}>Top Rated in Beer</Text>
                 <FlatList
                     data={beerNames}
-                    
+                    numColumns={3} // Set the number of columns to 2
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={styles.topSearches}>
@@ -47,6 +47,7 @@ const Search = ({ navigation, route }) => {
                             <Text style={styles.text}>{item}</Text>
                         </TouchableOpacity>
                     )}
+                    columnWrapperStyle={styles.columnWrapper} // Style for wrapping columns
                 />
             </View>
             {showResults && (
@@ -77,20 +78,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         borderColor: "white",
-
     },
     topSearches: {
         flexDirection: "row",
         alignItems: "center",
         borderWidth: 1,
         borderColor: "#7f7f7f",
-        maxWidth:"50%",
+        maxWidth: "50%",
         borderRadius: 15,
         paddingHorizontal: 10,
         paddingVertical: 5,
         marginHorizontal: 5,
         marginVertical: 10,
-        // justifyContent: "space-between",
         flexWrap: "wrap"
-    }
-})
+    },
+    columnWrapper: {
+        justifyContent: "space-between", // Adjust the space between columns
+    },
+});

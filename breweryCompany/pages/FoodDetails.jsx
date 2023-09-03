@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity, Text, TextInput, FlatList, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BIcon from 'react-native-vector-icons/AntDesign'
 import RIcon from 'react-native-vector-icons/MaterialIcons'
 import StarRating from 'react-native-star-rating';
 import Modal from 'react-native-modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectAuthToken, selectUserId } from '../features/userSlice';
 import AddModal from '../components/AddModal';
 import { Cart } from '../components/Cart';
 import Food from '../components/Food';
+import { addToBasket, removeFromBasket, selectBasketItems, selectBasketItemsWithId } from '../features/cartSlice';
 
-const BeerDetails = ({ navigation, route }) => {
+
+const FoodDetails = ({ navigation, route }) => {
   const id = route.params.id;
   const [beer, setBeer] = useState(null);
   const [userReview, setUserReview] = useState('');
@@ -21,6 +24,26 @@ const BeerDetails = ({ navigation, route }) => {
   const authToken = useSelector(selectAuthToken);
   const userId = useSelector(selectUserId)
   const [isAddModalVisible, setAddModalVisible] = useState(false);
+const foodId=id
+const name=beer?.food_name
+const imageUrl=beer?.image_url
+const rating=beer?.averageRating
+const price=beer?.food_price
+const size_ml=null
+const items = useSelector((state) => selectBasketItemsWithId(state, id))
+    const dispatch = useDispatch()
+    const removeItemFromBasket = () => {
+        if (items.length === 1) {
+            // setItemButton(false)
+        }
+        else if (!items.length > 0) { return; }
+
+        dispatch(removeFromBasket({ id }))
+    }
+    const addItemToBasket = () => {
+        dispatch(addToBasket({ foodId, id, name, imageUrl, rating, price, size_ml }))
+        // setItemButton(true)
+    }
 
   const submitReviewAndRating= async () => {
     setReviewModalVisible(false);
@@ -29,7 +52,7 @@ const BeerDetails = ({ navigation, route }) => {
       "review": userReview
     };
     try {
-        const response = await fetch(`https://10fe-103-130-108-23.ngrok-free.app/beerratings/${id}/${userId.userId}`, {
+        const response = await fetch(`https://10fe-103-130-108-23.ngrok-free.app/foodratings/${id}/${userId.userId}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${authToken.authToken}`,
@@ -55,7 +78,7 @@ console.log("BEER RATINGS IS CALLED")
 
   useEffect(() => {
     if (authToken.authToken) {
-      fetch(`https://10fe-103-130-108-23.ngrok-free.app/beers/${id}`, {
+      fetch(`https://10fe-103-130-108-23.ngrok-free.app/foods/${id}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken.authToken}`,
@@ -72,7 +95,7 @@ console.log("BEER RATINGS IS CALLED")
         });
     }
   }, [authToken.authToken, id,reviewModalVisible ]);
-
+console.log(beer)
   return (
     <View style={styles.container}>
       {beer && (
@@ -86,33 +109,33 @@ console.log("BEER RATINGS IS CALLED")
           </View>
           <ScrollView>
           <View style={styles.nameContainer}>
-            <Text style={styles.beerName}>{beer.name}</Text>
+            <Text style={styles.beerName}>{beer.food_name}</Text>
             <View style={styles.standardContainer}>
               <RIcon name="currency-rupee" color="#2f2f2f" size={20} />
-              <Text style={styles.price}>{beer.pricings[0].price} -</Text>
-              <RIcon name="currency-rupee" color="#2f2f2f" size={20} />
-              <Text style={styles.price}>{beer.pricings[3].price}</Text>
+              <Text style={styles.price}>{beer.food_price}</Text>
               </View>
           </View>
           
           <View style={styles.standardContainer}>
-            <Text style={styles.attributes}>ABV{"(%)"}: {beer.abv}</Text>
+            <Text style={styles.attributes}>{beer.calories}</Text>
             <Text style={styles.attributes}>|</Text>
-            <Text style={styles.attributes}>IBU: {beer.ibu}</Text>
+            <Text style={styles.attributes}>{beer.averageRating}</Text>
+            <Text style={styles.attributes}>|</Text>
+            <Text style={styles.attributes}>{beer.category}</Text>
           </View>
           
-          <View style={styles.descriptionContainer}>
+          {/* <View style={styles.descriptionContainer}>
             <Text style={styles.heading}>Ingredients used</Text>
             <Text style={styles.descriptionText}>{beer.ingredient_name}</Text>
-          </View>
+          </View> */}
           <View style={styles.descriptionContainer}>
             <Text style={styles.heading}>Description</Text>
             <Text style={styles.descriptionText}>{beer.description}</Text>
           </View>
-          <View style={styles.descriptionContainer}>
+          {/* <View style={styles.descriptionContainer}>
             <Text style={styles.heading}>Brewer's Tips</Text>
             <Text style={styles.descriptionText}>{beer.brewers_tips}</Text>
-          </View>
+          </View> */}
           
           <View style={[styles.descriptionContainer,styles.showReviewsContainer]}>
             <TouchableOpacity activeOpacity={.7} onPress={toggleReviewsVisibility} style={{flexDirection:"row", justifyContent:"space-between"}}>
@@ -153,16 +176,22 @@ console.log("BEER RATINGS IS CALLED")
             
             
           </View>
-          <Food navigation={navigation}/>
-          </ScrollView>
-          <View style={{flexDirection:"row", justifyContent:"space-evenly"}}>
+          
+          <View style={{flexDirection:"row", justifyContent:"space-between", paddingHorizontal:10, marginTop:10}}>
           <TouchableOpacity style={styles.reviewButton} onPress={() => setReviewModalVisible(true)}>
             <Text style={styles.reviewButtonText}>Write a Review</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.reviewButton}  onPress={()=>setAddModalVisible(true)}>
-            <Text style={styles.reviewButtonText}>Add</Text>
-          </TouchableOpacity>
+          <View style={styles.counterButton}>
+                <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
+                    <BIcon name="minuscircle" size={25} color='#ED5A6B' />
+                </TouchableOpacity>
+                <Text style={styles.couterButtonText}>{items.length}</Text>
+                <TouchableOpacity onPress={addItemToBasket}>
+                    <BIcon name="pluscircle" size={25} color='#ED5A6B' />
+                </TouchableOpacity>
+            </View>
           </View>
+          </ScrollView>
         </View>
       )}
       <Modal
@@ -218,7 +247,7 @@ console.log("BEER RATINGS IS CALLED")
 
 
 
-export default BeerDetails
+export default FoodDetails
 
 const styles = StyleSheet.create({
   container: {
@@ -241,7 +270,12 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     zIndex: 1,
-    padding: 15,
+    padding: 5,
+    backgroundColor:"rgba(255,255,255,0.5)",
+    borderWidth:1,
+    borderRadius:25,
+    margin:5,
+    borderColor:"rgba(255,255,255,0.5)"
   },
   imageContainer: {
     flex: 0,
@@ -249,12 +283,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: '35%',
-    paddingVertical: 25,
+    // paddingVertical: 25,
+    marginBottom:10
   },
   image: {
-    width: '50%',
+    width: '100%',
     height: '100%',
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   nameContainer: {
     marginHorizontal: 15,
@@ -364,6 +399,16 @@ const styles = StyleSheet.create({
   },
   showReviewsContainer:{
     marginTop:15
-  }
+  },
+  counterButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal:10
+},
+couterButtonText: {
+    color: '#4f4f4f',
+    fontFamily: 'Metropolis-SemiBold',
+    margin: 10
+},
 
 })

@@ -43,7 +43,7 @@ const Food = ({ navigation }) => {
                 horizontal
                 data={food}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <FoodCard item={item} id={item.id} name={item.food_name} imageUrl={item.image_url} rating={item.averageRating} price={item.food_price} size_ml={null}/>}
+                renderItem={({ item }) => <FoodCard navigation={navigation} item={item} foodId={item.id} id={item.id} name={item.food_name} imageUrl={item.image_url} rating={item.averageRating} price={item.food_price} size_ml={null}/>}
             />
         </View>
     );

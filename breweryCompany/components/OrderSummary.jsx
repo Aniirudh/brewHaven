@@ -15,7 +15,7 @@ const OrderSummary = ({ cartItems, currentOrder }) => {
       {item.beer && (
         <>
           <Text  style={{color:"black"}}>{item.beer.name}</Text>
-          <Text  style={{color:"black"}}>Quantity: {item.beerQuantity}</Text>
+          <Text  style={{color:"black"}}> x {item.beerQuantity}</Text>
           <Text  style={{color:"black"}}> ₹{item.beerAmount}</Text>
         </>
       )}

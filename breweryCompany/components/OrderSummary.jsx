@@ -31,7 +31,7 @@ console.log(currentOrder)
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-      {currentOrder.modeOfDelivery==="DELIVERY" && 
+      {currentOrder?.modeOfDelivery==="DELIVERY" && 
       <View style={{flexDirection:"row",justifyContent:"center",marginBottom:10}}>
       <Text style={{color:"#5f5f5f", fontFamily:"Metropolis-Medium"}}>Delivery Fee: ₹ 150 </Text>
       </View>

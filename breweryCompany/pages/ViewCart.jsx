@@ -116,6 +116,7 @@ const ViewCart = ({ navigation }) => {
             console.log('Data response:', data);
             // if(data.messaage==="Cart added successfully"){
             dispatch(clearCart())
+            
             // }
         } catch (error) {
             console.error('Error sending checkout request:', error);
@@ -144,7 +145,10 @@ const ViewCart = ({ navigation }) => {
             .then((data) => {
                 console.log(`Success: ${data.razorpay_payment_id}`);
                 handleCheckout(modeOfCheckout);
-                navigation.navigate('PlacingOrder');
+                navigation.navigate('Home');
+                dispatch(setTrackOrderVisibility({
+                    trackOrderVisibility: true
+                }))
             })
             .catch((error) => {
                 alert(`Error: ${error.code} | ${error.description}`);
@@ -241,7 +245,7 @@ const ViewCart = ({ navigation }) => {
                                     <Icon
                                         name={delivery ? 'checkcircle' : 'checkcircleo'}
                                         size={20}
-                                        color={delivery ? '#ED5A6B' : 'black'}
+                                        color={delivery ? '#FC3839' : 'black'}
                                         style={{ paddingHorizontal: 10 }}
                                     />
                                 </TouchableOpacity>
@@ -302,7 +306,7 @@ const ViewCart = ({ navigation }) => {
                             <View style={styles.addressContainer}>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: "center" }}>
                                     <View style={{ flexDirection: 'row', alignItems: 'center', }}>
-                                        <RIcon name="location-on" size={25} color="#ED5A6B" />
+                                        <RIcon name="location-on" size={25} color="#FC3839" />
                                         <Text style={{ color: 'black', fontFamily: 'Metropolis-Bold' }}>Deliver to</Text>
                                     </View>
                                     <TouchableOpacity onPress={() => setAddressModalVisible(true)}>
@@ -412,10 +416,10 @@ const styles = StyleSheet.create({
         margin: 10
     },
     checkoutButton: {
-        backgroundColor: '#ED5A6B',
+        backgroundColor: '#FC3839',
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#ED5A6B',
+        borderColor: '#FC3839',
         margin: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',

@@ -14,7 +14,7 @@ const OrderHistory = ({navigation}) => {
 
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/get_cart/${userId.userId}`, {
+            fetch(`http://54.89.234.175:8080/get_cart/${userId.userId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,

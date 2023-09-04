@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, ScrollView, Image, TouchableOpacity }
 import Icon from 'react-native-vector-icons/AntDesign'
 import RIcon from 'react-native-vector-icons/MaterialIcons'
 import { useDispatch, useSelector } from 'react-redux';
+import { selectTrackOrderVisibility } from '../features/userSlice'
 import { addToBasket, removeFromBasket, selectBasketItems, selectBasketItemsWithId } from '../features/cartSlice';
 
 const IndividualBeer = ({ navigation,actualBeerId,  id, imageUrl, name, size_ml,tagline, rating, price }) => {
@@ -10,6 +11,7 @@ const IndividualBeer = ({ navigation,actualBeerId,  id, imageUrl, name, size_ml,
     const [itemButton, setItemButton] = useState(false)
     const items = useSelector((state) => selectBasketItemsWithId(state, id))
     const dispatch = useDispatch()
+    const showTrackOrder = useSelector(selectTrackOrderVisibility)
 
     const addItemToBasket = () => {
         dispatch(addToBasket({ actualBeerId, id, name, imageUrl, tagline, rating,price, size_ml }))
@@ -40,11 +42,11 @@ else if (!items.length > 0) { return; }
                  
                         <View style={styles.counterButton}>
                             <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
-                                <Icon name="minuscircle" size={25} color='#ED5A6B' />
+                                <Icon name="minuscircle" size={25} color='#FC3839' />
                             </TouchableOpacity>
                             <Text style={styles.couterButtonText}>{items.length}</Text>
                             <TouchableOpacity onPress={addItemToBasket}>
-                                <Icon name="pluscircle" size={25} color='#ED5A6B' />
+                                <Icon name="pluscircle" size={25} color='#FC3839' />
                             </TouchableOpacity>
                         </View>
                     

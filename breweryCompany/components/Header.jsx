@@ -8,10 +8,13 @@ import Cards from './Cards'
 import Location from './Location'
 import { useDispatch, useSelector } from 'react-redux';
 import { selectOrigin, selectOriginalLocation,setOrigin } from '../features/navSlice'
+import { selectTrackOrderVisibility } from '../features/userSlice'
+
 
 const Header = ({navigation, beer}) => {
 
     const location=useSelector(selectOriginalLocation)
+    const showTrackOrder = useSelector(selectTrackOrderVisibility)
     const dispatch=useDispatch()
     dispatch(setOrigin({
         location: { "lat": (location.location.lat), "lng": (location.location.lng)},
@@ -25,6 +28,11 @@ const Header = ({navigation, beer}) => {
                     <Text numberOfLines={1} style={styles.locationName}>{location.description}</Text>
                     {/* <Location/> */}
                 </View>
+                {showTrackOrder &&
+                <TouchableOpacity onPress={()=>navigation.navigate('CurrentOrders')}>
+                <UIcon name="shopping-cart" color='#FC3839' size={25} style={styles.profileImage}/>
+            </TouchableOpacity>
+                }
                 <TouchableOpacity onPress={()=>navigation.navigate('Profile')}>
                     <UIcon name="user-circle-o" color='#8f8f8f' size={35} style={styles.profileImage}/>
                 </TouchableOpacity>

@@ -6,12 +6,13 @@ import { setOrigin } from '../features/navSlice';
 import { selectOrigin, selectOriginalLocation } from '../features/navSlice';
 import OrderSummary from '../components/OrderSummary';
 import RIcon from 'react-native-vector-icons/Ionicons';
+import BIcon from 'react-native-vector-icons/Ionicons'
 
 const initialCurrentOrder = [];
 const CurrentOrders = ({ navigation }) => {
     const authToken = useSelector(selectAuthToken);
     const userId = useSelector(selectUserId);
-    const [order, setOrder] = useState([]);
+    const [order, setOrder] = useState();
     const [currentOrder, setCurrentOrder] = useState(initialCurrentOrder)
     const origin = useSelector(selectOrigin);
     const dispatch = useDispatch();
@@ -30,22 +31,16 @@ const CurrentOrders = ({ navigation }) => {
                 .then(response => response.json()) // Parse the response JSON
                 .then(data => {
                     // Use functional update to append new data to the existing array
-                    setOrder(prevOrders => [...prevOrders, data]);
+                    setOrder(data);
                 })
                 .catch(error => {
                     console.error('Error fetching currentOrder data:', error);
                 });
         }
     }, [authToken.authToken]);
-    useEffect(() => {
-        if (order.length > 0) {
-            setCurrentOrder(prevOrders => [...prevOrders, order[0]]);
-        }
-    }, [order])
 
     console.log("Current origin", currentLocation);
     console.log("one order", order)
-    console.log("All order", currentOrder)
     // Define a renderItem function for the FlatList
     const renderItem = ({ item }) => (
         <View style={styles.cartItemContainer}>
@@ -58,9 +53,16 @@ const CurrentOrders = ({ navigation }) => {
 
     return (
         <View>
-            <Text>CurrentOrders</Text>
+            <View style={{ flexDirection: 'row', width: '70%', justifyContent: 'space-between', marginHorizontal: 10,paddingVertical:15 }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <BIcon name="chevron-back" size={25} color="black" />
+                    </TouchableOpacity>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+                        <Text style={{ color: "black", textTransform: "uppercase", fontFamily: "Metropolis-SemiBold" }}>Current Order{"("}s{")"}</Text>
+                    </View>
+                </View>
             <View style={styles.riderContainer}>
-                <OrderSummary cartItems={order[0]?.cartItems} currentOrder={order[0]} />
+                <OrderSummary cartItems={order?.cartItems} currentOrder={order} />
                 <TouchableOpacity onPress={() => navigation.navigate('Map')} style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Text style={{ color: "black", fontFamily: "Metropolis-SemiBold" }}>Track Order</Text>

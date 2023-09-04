@@ -26,31 +26,32 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
         try {
             const response = await fetch("http://54.89.234.175:8080/auth/login/passcode-login", {
                 method: "POST",
-                headers: new Headers({
-                    "ngrok-skip-browser-warning": "69420",
-                }),
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({
-                    username: email,
-                    password: password,
+                    "username": email,
+                    "password": password,
                 }),
             });
 
             console.log("Raw response:", response);
 
             const responseData = await response.json();
-            // if (responseData.jwrToken) {
-            //     const TOKEN = responseData.jwrToken;
+            if (responseData.jwrToken) {
+                const TOKEN = responseData.jwrToken;
 
-            //     await AsyncStorage.setItem('authToken', TOKEN);
-            //     await AsyncStorage.setItem('userId', responseData.userId.toString());
+                await AsyncStorage.setItem('authToken', TOKEN);
+                await AsyncStorage.setItem('userId', responseData.userId.toString());
 
-            //     console.log("token in login", TOKEN)
-            //     dispatch(setAuthToken({ authToken: TOKEN }));
-            //     dispatch(setUserId({ userId: responseData.userId }));
-            //     navigation.replace('HomeLoading');
-            // } else {
-            //     console.log("Authentication failed");
-            // }
+                console.log("token in login", TOKEN)
+                dispatch(setAuthToken({ authToken: TOKEN }));
+                dispatch(setUserId({ userId: responseData.userId }));
+                navigation.replace('HomeLoading');
+            } else {
+                console.log("Authentication failed");
+            }
 
 
         } catch (error) {

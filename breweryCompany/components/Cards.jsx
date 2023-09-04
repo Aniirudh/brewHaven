@@ -5,6 +5,7 @@ import RIcon from 'react-native-vector-icons/MaterialIcons'
 import DetailModal from './DetailModal';
 import AddModal from './AddModal';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectTrackOrderVisibility } from '../features/userSlice'
 import { addToBasket, removeFromBasket, selectBasketItems, selectBasketItemsWithId } from '../features/cartSlice';
 
 const Cards = ({ navigation, item, id, imageUrl, name, tagline, rating, price,pricings }) => {
@@ -13,6 +14,7 @@ const Cards = ({ navigation, item, id, imageUrl, name, tagline, rating, price,pr
     const [itemButton, setItemButton] = useState(false)
     const items = useSelector((state) => selectBasketItemsWithId(state, id))
     const dispatch = useDispatch()
+    const showTrackOrder = useSelector(selectTrackOrderVisibility)
     const size_ml= 0
 
     const addItemToBasket = () => {
@@ -73,7 +75,7 @@ else if (!items.length > 0) { return; }
                                 // <TouchableOpacity style={styles.button} onPress={addItemToBasket}>
                                 //     <Text style={styles.buttonText}>Add</Text>
                                 // </TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={()=>setAddModalVisible(true)}>
+                                <TouchableOpacity style={styles.button} onPress={()=> setAddModalVisible(true)}>
                                     <Text style={styles.buttonText}>Add</Text>
                                 </TouchableOpacity>
                             )}

@@ -6,13 +6,25 @@ import Modal from "react-native-modal";
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthToken, setUserId } from '../features/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
     const [password, setPassword] = useState('')
+    const [alertVisible, setAlertVisible] = useState(false);
     const dispatch = useDispatch()
+
+    const showAlert = () => {
+        setAlertVisible(true);
+      };
+    
+      // Function to close the custom alert
+      const closeAlert = () => {
+        setAlertVisible(false);
+      };
+
     const loginHandler = async () => {
         try {
-            const response = await fetch("https://10fe-103-130-108-23.ngrok-free.app/auth/login/passcode-login", {
+            const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/auth/login/passcode-login", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -44,10 +56,12 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
 
         } catch (error) {
             console.error("Error sending authentication request:", error);
+            showAlert(); 
         }
     };
 
     return (
+        <View>
         <Modal
             onBackdropPress={onClose}
             onBackButtonPress={onClose}
@@ -91,6 +105,22 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
 
             </View>
         </Modal>
+        <AwesomeAlert
+                show={alertVisible}
+                showProgress={false}
+                title="Authentication Failed"
+                message="Invalid Username or password"
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                showCancelButton={false} // Hide cancel button
+                showConfirmButton={true}
+                confirmText="OK"
+                confirmButtonColor="#FC3839"
+                onConfirmPressed={() => {
+                    closeAlert(); // Close the alert on "OK" button press
+                }}
+            />
+        </View>
     )
 };
 

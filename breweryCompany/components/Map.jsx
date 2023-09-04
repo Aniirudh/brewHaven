@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import React, { useRef, useEffect,useState } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import * as Progress from 'react-native-progress'
 import MapView, { Marker } from 'react-native-maps'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -11,15 +11,21 @@ import deliveryBike from '../assets/delivery-bike.png'
 import deliveryMan from '../assets/delivery-man.png'
 import { setTrackOrderVisibility } from '../features/userSlice'
 import { clearCart, selectBasketItems } from '../features/cartSlice'
+import { selectAuthToken, selectUserId } from '../features/userSlice';
+import OrderSummary from './OrderSummary'
 
 const Map = ({ navigation}) => {
   const API_KEY = "AIzaSyAZOYcbktSK5cB_hNu91XWV15jAB9JlzIA"
+  const authToken = useSelector(selectAuthToken);
+    const userId = useSelector(selectUserId);
   const origin = useSelector(selectOrigin)
   const destination = useSelector(selectDestination)
   const items = useSelector(selectBasketItems)
   const mapRef = useRef(null);
   const dispatch = useDispatch()
   const travelTimeInformation = useSelector(selectTravelTimeInformation)
+
+  const [currentOrder, setCurrentOrder] = useState([]);
 
   console.log("origin inmap", origin)
 
@@ -35,6 +41,27 @@ const Map = ({ navigation}) => {
     
   }, [origin, destination])
 
+  useEffect(() => {
+    if (authToken.authToken) {
+        fetch(`https://2ab7-103-130-108-22.ngrok-free.app/get_current_cart/${userId.userId}`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${authToken.authToken}`,
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Use functional update to add new items to the existing array
+                setCurrentOrder(prevOrders => [...prevOrders, data]);
+            })
+            .catch(error => {
+                console.error('Error fetching currentOrder data:', error);
+            });
+    }
+}, [authToken.authToken]);
+console.log(currentOrder[0]?.cartItems)
     useEffect(()=>{
         if(!origin || !destination) return
         const getTravelTime = async() => {
@@ -56,7 +83,7 @@ const Map = ({ navigation}) => {
   };
 
     return (
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1 }}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5 ,backgroundColor:"white",borderWidth:1,borderRadius:10,marginVertical:2,marginHorizontal:5,borderColor:"white"}}>
                 <TouchableOpacity style={styles.closeIcon} onPress={() => navigation.navigate('Home')}>
                     <Icon name="close" size={25} color="black" />
@@ -116,14 +143,6 @@ const Map = ({ navigation}) => {
             </MapView>
         </View>
         <View style={{ height: "50%", width: "100%", flex: 1 }}>
-            {/* Other UI components */}
-            {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 5, marginVertical: 5 }}>
-                <TouchableOpacity style={styles.closeIcon} onPress={() => navigation.navigate('Home')}>
-                    <Icon name="close" size={25} color="white" />
-                </TouchableOpacity>
-                <Text style={styles.closeIcon}>Order Help</Text>
-            </View> */}
-            {/* Delivery container */}
             <View style={styles.deliveryContainer}>
                 <View style={{ flexDirection: 'column' }}> 
                     <Text style={styles.estimatedText}>Your order will be delivered in</Text>
@@ -148,8 +167,11 @@ const Map = ({ navigation}) => {
                     <Text style={styles.estimatedText}>Your Rider</Text>
                 </View>
             </View>
+            <View style={styles.riderContainer}>
+            <OrderSummary cartItems={currentOrder[0]?.cartItems} currentOrder={currentOrder[0]}/>
+            </View>
         </View>
-    </View>
+    </ScrollView>
     )
 }
 

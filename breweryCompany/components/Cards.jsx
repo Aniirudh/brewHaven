@@ -14,7 +14,7 @@ const Cards = ({ navigation, item, id, imageUrl, name, tagline, rating, price,pr
     const items = useSelector((state) => selectBasketItemsWithId(state, id))
     const dispatch = useDispatch()
     const size_ml= 0
-    
+
     const addItemToBasket = () => {
         dispatch(addToBasket({ id, name, imageUrl, tagline, rating,price, size_ml }))
         setItemButton(true)
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
 
     },
     button: {
-        backgroundColor: '#ED5A6B',
+        backgroundColor: '#FC3839',
         paddingHorizontal: 15,
         paddingVertical: 5,
         borderRadius: 5,

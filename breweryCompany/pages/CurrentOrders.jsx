@@ -4,18 +4,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectAuthToken, selectUserId } from '../features/userSlice';
 import { setOrigin } from '../features/navSlice';
 import { selectOrigin, selectOriginalLocation } from '../features/navSlice';
+import OrderSummary from '../components/OrderSummary';
+import RIcon from 'react-native-vector-icons/Ionicons';
 
+const initialCurrentOrder = [];
 const CurrentOrders = ({ navigation }) => {
     const authToken = useSelector(selectAuthToken);
     const userId = useSelector(selectUserId);
-    const [currentOrder, setCurrentOrder] = useState([]);
+    const [order, setOrder] = useState([]);
+    const [currentOrder,setCurrentOrder]=useState(initialCurrentOrder)
     const origin = useSelector(selectOrigin);
     const dispatch = useDispatch();
     const [currentLocation, setCurrentLocation] = useState(origin);
 
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://10fe-103-130-108-23.ngrok-free.app/get_current_cart/${userId.userId}`, {
+            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/get_current_cart/${userId.userId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -23,20 +27,25 @@ const CurrentOrders = ({ navigation }) => {
                     'Content-Type': 'application/json',
                 },
             })
-                .then(response => response.json())
+                .then(response => response.json()) // Parse the response JSON
                 .then(data => {
-                    // Use functional update to add new items to the existing array
-                    setCurrentOrder(prevOrders => [...prevOrders, data]);
+                    // Use functional update to append new data to the existing array
+                    setOrder(prevOrders => [...prevOrders, data]);
                 })
                 .catch(error => {
                     console.error('Error fetching currentOrder data:', error);
                 });
         }
     }, [authToken.authToken]);
-
-    console.log("Current order", currentOrder);
+    console.log(order)    
+    useEffect(()=>{
+        if (order.length > 0) {
+            setCurrentOrder(prevOrders => [...prevOrders, order[0]]);
+        }
+    },[order])
+    
     console.log("Current origin", currentLocation);
-
+    console.log("All order", currentOrder)
     // Define a renderItem function for the FlatList
     const renderItem = ({ item }) => (
         <View style={styles.cartItemContainer}>
@@ -50,19 +59,15 @@ const CurrentOrders = ({ navigation }) => {
     return (
         <View>
             <Text>CurrentOrders</Text>
-            <FlatList
-                data={currentOrder}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-            />
-            <TouchableOpacity
-                onPress={() =>
-                    navigation.navigate('Map')
-                }
-                style={{ color: "black" }}
-            >
-                <Text>Track Order</Text>
-            </TouchableOpacity>
+            <View style={styles.riderContainer}>
+                <OrderSummary cartItems={order[0]?.cartItems} currentOrder={order[0]} />
+                <TouchableOpacity onPress={() => navigation.navigate('Map')} style={{justifyContent:"flex-end",alignItems:"flex-end"}}>
+                    <View style={{flexDirection:"row",alignItems:"center"}}>
+                    <Text style={{ color: "black", fontFamily: "Metropolis-SemiBold" }}>Track Order</Text>
+                    <RIcon name="chevron-forward" color="#4f4f4f" size={20} /></View>
+                </TouchableOpacity>
+            </View>
+
         </View>
     );
 }
@@ -75,5 +80,15 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         padding: 10,
         margin: 5,
+    },
+    riderContainer: {
+        marginTop: 10,
+        backgroundColor: 'white',
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: 'white',
+        marginHorizontal: 15,
     },
 });

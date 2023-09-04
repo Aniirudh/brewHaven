@@ -16,7 +16,7 @@ const Profile = ({ navigation }) => {
     const [user, setUser] = useState(null)
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://10fe-103-130-108-23.ngrok-free.app/userwithaddress/${userId.userId}`, {
+            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/userwithaddress/${userId.userId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -48,7 +48,7 @@ const Profile = ({ navigation }) => {
         };
         console.log(authToken.authToken)
         try {
-            const response = await fetch(`https://10fe-103-130-108-23.ngrok-free.app/delete_addresse/${addressId}`, {
+            const response = await fetch(`https://2ab7-103-130-108-22.ngrok-free.app/delete_addresse/${addressId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,

@@ -21,7 +21,7 @@ const Header = ({navigation, beer}) => {
         <View style={{backgroundColor:"#F4F2F2"}}>
             <View style={styles.navbar}>
                 <View style={styles.location}>
-                    <Icon name="location-on" size={45} color='#ED5A6B'></Icon>
+                    <Icon name="location-on" size={45} color='#FC3839'></Icon>
                     <Text numberOfLines={1} style={styles.locationName}>{location.description}</Text>
                     {/* <Location/> */}
                 </View>

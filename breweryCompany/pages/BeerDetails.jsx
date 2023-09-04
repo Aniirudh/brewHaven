@@ -29,7 +29,7 @@ const BeerDetails = ({ navigation, route }) => {
       "review": userReview
     };
     try {
-        const response = await fetch(`https://10fe-103-130-108-23.ngrok-free.app/beerratings/${id}/${userId.userId}`, {
+        const response = await fetch(`https://2ab7-103-130-108-22.ngrok-free.app/beerratings/${id}/${userId.userId}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${authToken.authToken}`,
@@ -55,7 +55,7 @@ console.log("BEER RATINGS IS CALLED")
 
   useEffect(() => {
     if (authToken.authToken) {
-      fetch(`https://10fe-103-130-108-23.ngrok-free.app/beers/${id}`, {
+      fetch(`https://2ab7-103-130-108-22.ngrok-free.app/beers/${id}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken.authToken}`,

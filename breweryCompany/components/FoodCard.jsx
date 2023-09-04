@@ -31,11 +31,11 @@ const FoodCard = ({navigation, item, foodId, id, name, imageUrl, rating, price, 
             </View>
             <View style={styles.counterButton}>
                 <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
-                    <Icon name="minuscircle" size={25} color='#ED5A6B' />
+                    <Icon name="minuscircle" size={25} color='#FC3839' />
                 </TouchableOpacity>
                 <Text style={styles.couterButtonText}>{items.length}</Text>
                 <TouchableOpacity onPress={addItemToBasket}>
-                    <Icon name="pluscircle" size={25} color='#ED5A6B' />
+                    <Icon name="pluscircle" size={25} color='#FC3839' />
                 </TouchableOpacity>
             </View>
         </TouchableOpacity>

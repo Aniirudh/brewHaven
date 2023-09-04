@@ -20,7 +20,7 @@ const SelectAddress = ({ isVisible, onClose, navigation }) => {
 
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://10fe-103-130-108-23.ngrok-free.app/address/${userId.userId}`, {
+            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/address/${userId.userId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,

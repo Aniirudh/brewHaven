@@ -6,26 +6,37 @@ import Modal from "react-native-modal";
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthToken, setUserId } from '../features/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-const OtpModal = ({ isVisible, onClose,navigation }) => {
+const OtpModal = ({ isVisible, onClose, navigation }) => {
     const [otp, setOtp] = useState('')
-    const dispatch= useDispatch()
+    const [alertVisible, setAlertVisible] = useState(false);
+    const dispatch = useDispatch()
+    const showAlert = () => {
+        setAlertVisible(true);
+      };
+    
+      // Function to close the custom alert
+      const closeAlert = () => {
+        setAlertVisible(false);
+      };
+
     const loginHandler = async () => {
         try {
-          const response = await fetch("https://10fe-103-130-108-23.ngrok-free.app/auth/login/otp-login2", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              leotp: otp,
-            }),
-          });
-    
-          console.log("Raw response:", response);
-    
-          const responseData = await response.json();
+            const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/auth/login/otp-login2", {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    leotp: otp,
+                }),
+            });
+
+            console.log("Raw response:", response);
+
+            const responseData = await response.json();
             if (responseData.jwrToken) {
                 const TOKEN = responseData.jwrToken;
                 dispatch(setAuthToken({ authToken: TOKEN }));
@@ -33,25 +44,28 @@ const OtpModal = ({ isVisible, onClose,navigation }) => {
                 navigation.replace('HomeLoading');
             } else {
                 console.log("Authentication failed");
+                showAlert(); 
             }
 
             dispatch(setUserId({ userId: responseData.userId }));
         } catch (error) {
             console.error("Error sending authentication request:", error);
+            showAlert(); 
         }
 
-      };
-    return(
-    <Modal
-        onBackdropPress={onClose}
-        onBackButtonPress={onClose}
-        isVisible={isVisible}
-        style={styles.modal}>
-        <View style={styles.modalContent}>
-            {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
+    };
+    return (
+        <View>
+        <Modal
+            onBackdropPress={onClose}
+            onBackButtonPress={onClose}
+            isVisible={isVisible}
+            style={styles.modal}>
+            <View style={styles.modalContent}>
+                {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
                         <Icon name="closecircle" color='black' size={25}/>
                     </TouchableOpacity> */}
-            
+
                 <View>
                     <View style={styles.center}>
                         {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
@@ -60,7 +74,7 @@ const OtpModal = ({ isVisible, onClose,navigation }) => {
                     </View>
                     <View>
                         <View style={styles.modalContentContainer}>
-                        <TextInput
+                            <TextInput
                                 value={otp}
                                 autoComplete='sms-otp'
                                 autoFocus
@@ -71,10 +85,10 @@ const OtpModal = ({ isVisible, onClose,navigation }) => {
                                 placeholderTextColor={'#4f4f4f'}
                                 onChangeText={(text) => setOtp(text)}
                                 secureTextEntry />
-                                <View style={{justifyContent:"flex-end"}}>
-                            <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
-                                <Text style={styles.buttonText}>Login with OTP</Text>
-                            </TouchableOpacity></View>
+                            <View style={{ justifyContent: "flex-end" }}>
+                                <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
+                                    <Text style={styles.buttonText}>Login with OTP</Text>
+                                </TouchableOpacity></View>
                         </View>
                         <View>
 
@@ -82,10 +96,27 @@ const OtpModal = ({ isVisible, onClose,navigation }) => {
                     </View>
 
                 </View>
-            
+
+            </View>
+        </Modal>
+        <AwesomeAlert
+                show={alertVisible}
+                showProgress={false}
+                title="Authentication Failed"
+                message="Login with OTP failed. Please try again."
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                showCancelButton={false} // Hide cancel button
+                showConfirmButton={true}
+                confirmText="OK"
+                confirmButtonColor="#FC3839"
+                onConfirmPressed={() => {
+                    closeAlert(); // Close the alert on "OK" button press
+                }}
+            />
         </View>
-    </Modal>
-)};
+    )
+};
 
 const styles = StyleSheet.create({
 
@@ -98,38 +129,38 @@ const styles = StyleSheet.create({
         fontFamily: "Metropolis-Medium",
         width: "100%"
     },
-    button:{
-        backgroundColor:'#FC3839',
-        height:'55%',
-        widht:'100%',
-        alignItems:'center',
-        justifyContent:'center',
-        borderRadius:5,
-        letterSpacing:10,
-        
-      },
-      buttonText:{
-        color:'white',
-        fontFamily:"Metropolis-SemiBold",
-        letterSpacing:1,
-        textTransform:'uppercase'
-      },
+    button: {
+        backgroundColor: '#FC3839',
+        height: '55%',
+        widht: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5,
+        letterSpacing: 10,
+
+    },
+    buttonText: {
+        color: 'white',
+        fontFamily: "Metropolis-SemiBold",
+        letterSpacing: 1,
+        textTransform: 'uppercase'
+    },
 
     closeButton: {
         margin: 10
     },
-    
+
     shadowProp: {
         elevation: 5,
         shadowColor: '#171717',
     },
-   
+
     tagline: {
         color: '#4f4f4f',
         fontFamily: "Metropolis-Light",
         // marginTop: 5
     },
-   
+
     modal: {
         justifyContent: "flex-end",
         margin: 0,
@@ -149,7 +180,7 @@ const styles = StyleSheet.create({
         margin: 5,
         fontSize: 16,
     },
-    
+
     barIcon: {
         width: 60,
         height: 5,
@@ -161,14 +192,14 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    
+
     modalContentContainer: {
         // flexDirection: 'row',
         // justifyContent: 'space-between',
         marginTop: 10,
         padding: 5,
     },
-   
+
     container: {
         margin: 10
     }

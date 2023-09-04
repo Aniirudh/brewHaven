@@ -30,7 +30,7 @@ const Search = ({ navigation, route }) => {
                 <Icon name="arrow-back" color="black" size={30} />
             </TouchableOpacity>
             <SearchBox
-                fetchUrl={`https://api.punkapi.com/v2/beers`}
+                fetchUrl={`https://2ab7-103-130-108-22.ngrok-free.app/beers`}
                 onResults={handleResults}
                 input={input}
                 setInput={setInput}
@@ -39,7 +39,7 @@ const Search = ({ navigation, route }) => {
                 <Text style={styles.header}>Top Rated in Beer</Text>
                 <FlatList
                     data={beerNames}
-                    numColumns={3} // Set the number of columns to 2
+                    numColumns={2} // Set the number of columns to 2
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
                         <TouchableOpacity style={styles.topSearches}>

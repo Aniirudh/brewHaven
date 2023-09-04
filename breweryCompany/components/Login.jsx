@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, onPress } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, onPress, Image, Modal } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthToken, setUserId } from '../features/userSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import OtpModal from './OtpModal';
 import PasswordModal from './PasswordModal';
+import logo from '../assets/logo.png'
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('')
@@ -39,7 +40,7 @@ const Login = ({ navigation }) => {
 
   const loginHandler = async () => {
     try {
-      const response = await fetch("https://10fe-103-130-108-23.ngrok-free.app/auth/login/otp-login1", {
+      const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/auth/login/otp-login1", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -67,12 +68,13 @@ const Login = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
+      <Image source={logo} style={styles.image}/>
       <View style={styles.form}>
         <TextInput
           value={email}
           style={styles.input}
           placeholder='Email/ Phone Number'
-          placeholderTextColor={'#4f4f4f'}
+          placeholderTextColor={'#6f6f6f'}
           onChangeText={(text) => setEmail(text)}
         />
         {/* <TextInput
@@ -112,9 +114,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    backgroundColor:"white"
+  },
+  image:{
+    width:"100%",
+    height:"50%",
+    resizeMode:"contain"
   },
   form: {
-    width: '80%'
+    width: '80%',
   },
   input: {
     borderBottomWidth: 1,
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
     fontFamily: "Metropolis-Medium"
   },
   button: {
-    backgroundColor: '#fc3839',
+    backgroundColor: '#FC3839',
     height: '15%',
     widht: '100%',
     alignItems: 'center',

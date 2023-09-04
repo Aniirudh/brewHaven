@@ -10,7 +10,7 @@ const Food = ({ navigation }) => {
 
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://10fe-103-130-108-23.ngrok-free.app/foods`, {
+            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/foods`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,

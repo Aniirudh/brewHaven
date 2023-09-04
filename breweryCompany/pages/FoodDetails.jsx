@@ -52,7 +52,7 @@ const items = useSelector((state) => selectBasketItemsWithId(state, id))
       "review": userReview
     };
     try {
-        const response = await fetch(`https://10fe-103-130-108-23.ngrok-free.app/foodratings/${id}/${userId.userId}`, {
+        const response = await fetch(`https://2ab7-103-130-108-22.ngrok-free.app/foodratings/${id}/${userId.userId}`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${authToken.authToken}`,
@@ -78,7 +78,7 @@ console.log("BEER RATINGS IS CALLED")
 
   useEffect(() => {
     if (authToken.authToken) {
-      fetch(`https://10fe-103-130-108-23.ngrok-free.app/foods/${id}`, {
+      fetch(`https://2ab7-103-130-108-22.ngrok-free.app/foods/${id}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${authToken.authToken}`,
@@ -119,7 +119,11 @@ console.log(beer)
           <View style={styles.standardContainer}>
             <Text style={styles.attributes}>{beer.calories}</Text>
             <Text style={styles.attributes}>|</Text>
-            <Text style={styles.attributes}>{beer.averageRating}</Text>
+            <View style={{flexDirection:"row", alignItems:"center", marginLeft:10}}>
+            <BIcon name="star" color="#18983E" size={15} />
+            <Text style={{color: "#6F6F6F",
+    fontFamily: "Metropolis-Medium",marginHorizontal:5}}>{beer.averageRating}</Text>
+            </View>
             <Text style={styles.attributes}>|</Text>
             <Text style={styles.attributes}>{beer.category}</Text>
           </View>

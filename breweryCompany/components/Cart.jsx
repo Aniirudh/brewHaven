@@ -17,7 +17,7 @@ export const Cart = ({ navigation }) => {
     if(items.length === 0 && showTrackOrder){
         return(
         <View style={styles.cartContainer}>
-            <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('Map')}>
+            <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('CurrentOrders')}>
                 <Text style={styles.viewCart}>Track Order</Text>
                 {/* <Text>{cartTotal}</Text> */}
                 {/* <Image source={deliveryBike} style={{ width: "20%", height: "40%", resizeMode: 'contain' }} /> */}
@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
         textTransform: 'uppercase'
     },
     cartButton: {
-        backgroundColor: '#ED5A6B',
+        backgroundColor: '#FC3839',
         borderWidth: 1,
         borderRadius: 10,
-        borderColor: '#ED5A6B',
+        borderColor: '#FC3839',
         margin: 10,
         flexDirection: 'row',
         justifyContent: 'space-around',

@@ -10,7 +10,7 @@ const Register = ({navigation}) => {
     const [password,setPassword]=useState('');
 
     const SignUp=()=>{
-        fetch('https://10fe-103-130-108-23.ngrok-free.app/registration', {
+        fetch('https://2ab7-103-130-108-22.ngrok-free.app/registration', {
             method: "POST",
             headers: {
             //   Authorization: `Bearer ${TOKEN}`,

@@ -15,7 +15,7 @@ const ResetPassword = ({ navigation, route }) => {
     // Function to request OTP
     const requestOTP = async () => {
         try {
-            const response = await fetch("https://10fe-103-130-108-23.ngrok-free.app/forgot-password", {
+            const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/forgot-password", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -43,7 +43,7 @@ const ResetPassword = ({ navigation, route }) => {
     // Function to verify OTP
     const verifyOTP = async () => {
         try {
-            const response = await fetch("https://10fe-103-130-108-23.ngrok-free.app/verify-otp", {
+            const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/verify-otp", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -74,7 +74,7 @@ const ResetPassword = ({ navigation, route }) => {
             // Passwords match, proceed with the API call set-new-password
             // Upon success, show a success message or navigate to login page
             try {
-                const response = await fetch("https://10fe-103-130-108-23.ngrok-free.app/set-new-password", {
+                const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/set-new-password", {
                     method: "POST",
                     headers: {
                         Accept: "application/json",

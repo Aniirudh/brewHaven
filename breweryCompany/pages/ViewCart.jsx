@@ -33,6 +33,7 @@ const ViewCart = ({ navigation }) => {
     const origin = useSelector(selectOrigin);
     const authToken = useSelector(selectAuthToken);
     const userId = useSelector(selectUserId);
+    const [modeOfCheckout,setModeOfCheckout]= useState("")
 
     console.log("items",groupedItemsInBasket)
     const dispatch = useDispatch();
@@ -56,8 +57,9 @@ const ViewCart = ({ navigation }) => {
         );
     }, [dispatch]);
 
-    const handleCheckout = useCallback(async () => {
+    const handleCheckout = useCallback(async (modeOfCheckout) => {
         // Prepare the cart items array from the groupedItemsInBasket
+        console.log("checkoutmod",modeOfCheckout)
         const cartItems = []
         for (const [key, items] of Object.entries(groupedItemsInBasket)){
             
@@ -86,8 +88,8 @@ const totalAmount = cartItems.reduce((total, item) => total + (item.beerAmount |
             userId: userId.userId,
             cartItems,
             totalAmount,
-            modeOfPayment: "COD",
-            modeOfDelivery: "DELIVERY",
+            modeOfPayment: "ONLINE",
+            modeOfDelivery: modeOfCheckout,
             status: "NOT DELIVERED",
             address: origin.description,
             lat: origin.location.lat,
@@ -96,7 +98,7 @@ const totalAmount = cartItems.reduce((total, item) => total + (item.beerAmount |
 console.log("Request", requestBody)
         try {
             const response = await fetch(
-                `https://10fe-103-130-108-23.ngrok-free.app/add_cart/${userId.userId}`,
+                `https://2ab7-103-130-108-22.ngrok-free.app/add_cart/${userId.userId}`,
                 {
                     method: 'POST',
                     headers: {
@@ -120,6 +122,7 @@ console.log("Request", requestBody)
     }, [groupedItemsInBasket, authToken, userId, origin, dispatch]);
 
     const handleDeliveryCheckout = () => {
+        console.log(modeOfCheckout)
         const options = {
             description: 'Credits towards consultation',
             image: 'https://i.imgur.com/3g7nmJC.jpg',
@@ -139,7 +142,7 @@ console.log("Request", requestBody)
         RazorpayCheckout.open(options)
             .then((data) => {
                 console.log(`Success: ${data.razorpay_payment_id}`);
-                handleCheckout();
+                handleCheckout(modeOfCheckout);
                 navigation.navigate('PlacingOrder');
             })
             .catch((error) => {
@@ -153,11 +156,13 @@ console.log("Request", requestBody)
 
     const handleTakeawaySelect = () => {
         setTakeAway(!takeAway);
+        setModeOfCheckout("TAKEAWAY")
         setDelivery(false);
     };
 
     const handleDeliverySelect = () => {
         setDelivery(!delivery);
+        setModeOfCheckout("DELIVERY")
         setTakeAway(false);
     };
     return (

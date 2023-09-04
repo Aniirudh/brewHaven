@@ -17,7 +17,7 @@ export const Cart = ({ navigation }) => {
     if(items.length === 0 && showTrackOrder){
         return(
         <View style={styles.cartContainer}>
-            <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('CurrentOrders')}>
+            <TouchableOpacity style={styles.cartButton} onPress={() => navigation.navigate('Map')}>
                 <Text style={styles.viewCart}>Track Order</Text>
                 {/* <Text>{cartTotal}</Text> */}
                 {/* <Image source={deliveryBike} style={{ width: "20%", height: "40%", resizeMode: 'contain' }} /> */}

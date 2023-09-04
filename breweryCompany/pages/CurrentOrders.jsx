@@ -12,14 +12,14 @@ const CurrentOrders = ({ navigation }) => {
     const authToken = useSelector(selectAuthToken);
     const userId = useSelector(selectUserId);
     const [order, setOrder] = useState([]);
-    const [currentOrder,setCurrentOrder]=useState(initialCurrentOrder)
+    const [currentOrder, setCurrentOrder] = useState(initialCurrentOrder)
     const origin = useSelector(selectOrigin);
     const dispatch = useDispatch();
     const [currentLocation, setCurrentLocation] = useState(origin);
 
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/get_current_cart/${userId.userId}`, {
+            fetch(`http://54.89.234.175:8080/get_current_cart/${userId.userId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -37,14 +37,14 @@ const CurrentOrders = ({ navigation }) => {
                 });
         }
     }, [authToken.authToken]);
-    console.log(order)    
-    useEffect(()=>{
+    useEffect(() => {
         if (order.length > 0) {
             setCurrentOrder(prevOrders => [...prevOrders, order[0]]);
         }
-    },[order])
-    
+    }, [order])
+
     console.log("Current origin", currentLocation);
+    console.log("one order", order)
     console.log("All order", currentOrder)
     // Define a renderItem function for the FlatList
     const renderItem = ({ item }) => (
@@ -61,10 +61,10 @@ const CurrentOrders = ({ navigation }) => {
             <Text>CurrentOrders</Text>
             <View style={styles.riderContainer}>
                 <OrderSummary cartItems={order[0]?.cartItems} currentOrder={order[0]} />
-                <TouchableOpacity onPress={() => navigation.navigate('Map')} style={{justifyContent:"flex-end",alignItems:"flex-end"}}>
-                    <View style={{flexDirection:"row",alignItems:"center"}}>
-                    <Text style={{ color: "black", fontFamily: "Metropolis-SemiBold" }}>Track Order</Text>
-                    <RIcon name="chevron-forward" color="#4f4f4f" size={20} /></View>
+                <TouchableOpacity onPress={() => navigation.navigate('Map')} style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <Text style={{ color: "black", fontFamily: "Metropolis-SemiBold" }}>Track Order</Text>
+                        <RIcon name="chevron-forward" color="#4f4f4f" size={20} /></View>
                 </TouchableOpacity>
             </View>
 

@@ -14,7 +14,7 @@ const OrderSummary = ({ cartItems, currentOrder }) => {
       )}
       {item.beer && (
         <>
-          <Text  style={{color:"black"}}>{item.beer.name}</Text>
+          <Text  style={{color:"black",fontFamily:"Metropolis-Medium"}}>{item.beer.name}</Text>
           <Text  style={{color:"black"}}> x {item.beerQuantity}</Text>
           <Text  style={{color:"black"}}> ₹{item.beerAmount}</Text>
         </>
@@ -22,7 +22,7 @@ const OrderSummary = ({ cartItems, currentOrder }) => {
       
     </View>
   );
-
+console.log(currentOrder)
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Order Summary</Text>
@@ -31,8 +31,14 @@ const OrderSummary = ({ cartItems, currentOrder }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-    <View style={{ borderTopWidth:1, borderTopColor:"silver", marginBottom:10}}>
-    <Text  style={{color:"black",fontFamily:"Metropolis-Bold", marginVertical:10, flexDirection:"row",justifyContent:"space-around"}}>Grand Total:  ₹{currentOrder?.totalAmount}</Text>
+      {currentOrder.modeOfDelivery==="DELIVERY" && 
+      <View style={{flexDirection:"row",justifyContent:"center",marginBottom:10}}>
+      <Text style={{color:"#5f5f5f", fontFamily:"Metropolis-Medium"}}>Delivery Fee: ₹ 150 </Text>
+      </View>
+      }
+      
+    <View style={{ borderTopWidth:1, borderTopColor:"silver", marginBottom:10, flexDirection:"row",justifyContent:"space-around"}}>
+    <Text  style={{color:"black",fontFamily:"Metropolis-Bold", marginVertical:10}}>Grand Total:  ₹{currentOrder?.totalAmount}</Text>
     </View>
       
     </View>

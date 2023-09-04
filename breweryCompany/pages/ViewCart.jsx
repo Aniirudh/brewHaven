@@ -88,7 +88,7 @@ const ViewCart = ({ navigation }) => {
         const requestBody = {
             userId: userId.userId,
             cartItems: cartItems,
-            totalAmount: (modeOfCheckout === "DELIVERY") ? totalAmount+150 : totalAmount ,
+            totalAmount: (modeOfCheckout === "DELIVERY") ? totalAmount + 150 : totalAmount,
             modeOfPayment: "ONLINE",
             modeOfDelivery: modeOfCheckout,
             status: "NOT DELIVERED",
@@ -99,7 +99,7 @@ const ViewCart = ({ navigation }) => {
         console.log("Request", requestBody)
         try {
             const response = await fetch(
-                `https://2ab7-103-130-108-22.ngrok-free.app/add_cart/${userId.userId}`,
+                `http://54.89.234.175:8080/add_cart/${userId.userId}`,
                 {
                     method: 'POST',
                     headers: {

@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
           dispatch(setUserId({ userId: userId }));
 
           // Navigate to HomeLoading screen
-         
+
         }
       } catch (error) {
         console.error('Error checking AsyncStorage:', error);
@@ -40,7 +40,7 @@ const Login = ({ navigation }) => {
 
   const loginHandler = async () => {
     try {
-      const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/auth/login/otp-login1", {
+      const response = await fetch("http://54.89.234.175:8080/auth/login/otp-login1", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -68,7 +68,7 @@ const Login = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.image}/>
+      <Image source={logo} style={styles.image} />
       <View style={styles.form}>
         <TextInput
           value={email}
@@ -114,12 +114,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor:"white"
+    backgroundColor: "white"
   },
-  image:{
-    width:"100%",
-    height:"50%",
-    resizeMode:"contain"
+  image: {
+    width: "100%",
+    height: "50%",
+    resizeMode: "contain"
   },
   form: {
     width: '80%',

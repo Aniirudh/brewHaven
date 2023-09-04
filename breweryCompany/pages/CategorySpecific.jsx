@@ -1,39 +1,39 @@
-import React,{useState,useEffect} from 'react'
-import {View,Text,StyleSheet,TouchableOpacity,FlatList,Image} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import RIcon from 'react-native-vector-icons/MaterialIcons'
 import Cards from '../components/Cards'
 import { Cart } from '../components/Cart'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { selectAuthToken } from '../features/userSlice'
 
-const CategorySpecific = ({navigation,route}) => {
+const CategorySpecific = ({ navigation, route }) => {
 
     const authToken = useSelector(selectAuthToken)
     const [beer, setBeer] = useState([]);
-    const category= route.params.category
-        console.log(category)
+    const category = route.params.category
+    console.log(category)
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/beers/categories/${category}`, {
-              method: "GET",
-              headers: {
-                Authorization: `Bearer ${authToken.authToken}`,
-                Accept: "application/json",
-      "Content-Type": "application/json",
-              },
+            fetch(`http://54.89.234.175:8080/beers/categories/${category}`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${authToken.authToken}`,
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
             })
-            .then(response => {
-              return response.json();
-            })
-            .then(data => {
-              setBeer(data);
-            })
-            .catch(error => {
-              console.error("Error sending authentication request:", error);
-            });
-          }
-        }, [authToken.authToken]);
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    setBeer(data);
+                })
+                .catch(error => {
+                    console.error("Error sending authentication request:", error);
+                });
+        }
+    }, [authToken.authToken]);
     const renderItem = ({ item }) => (
         <Cards
             navigation={navigation}
@@ -48,47 +48,47 @@ const CategorySpecific = ({navigation,route}) => {
         />
     );
     return (
-        <View style={{flex:1}}>
-        <View style={{flex:1}}>
-            <View style={styles.headingContainer}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <View style={styles.line} />
-                <View>
-                    <Text style={styles.heading}>{category}</Text>
+        <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+                <View style={styles.headingContainer}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <View style={styles.line} />
+                        <View>
+                            <Text style={styles.heading}>{category}</Text>
+                        </View>
+                        <View style={styles.line} />
+                    </View>
                 </View>
-                <View style={styles.line} />
+                <FlatList
+                    data={beer}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+
             </View>
-            </View>
-            <FlatList
-                data={beer}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
-            
-        </View>
-        <Cart navigation={navigation}/>
+            <Cart navigation={navigation} />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    line:{
-        flex: 1, 
-        height: 1, 
+    line: {
+        flex: 1,
+        height: 1,
         backgroundColor: '#9f9f9f'
     },
-    heading:{
-        textTransform:'uppercase',
-        width:250,
-        textAlign:'center',
-        fontFamily:'Metropolis-Medium',
-        color:'#8f8f8f',
-        letterSpacing:1,
+    heading: {
+        textTransform: 'uppercase',
+        width: 250,
+        textAlign: 'center',
+        fontFamily: 'Metropolis-Medium',
+        color: '#8f8f8f',
+        letterSpacing: 1,
         // margin:5
     },
-    headingContainer:{
-        marginTop:15,
-        marginBottom:5
+    headingContainer: {
+        marginTop: 15,
+        marginBottom: 5
     },
     card: {
         height: 160,
@@ -132,36 +132,36 @@ const styles = StyleSheet.create({
         margin: 3,
         fontFamily: 'Metropolis-SemiBold'
     },
-    price:{
-        color:'#2f2f2f',
+    price: {
+        color: '#2f2f2f',
         fontFamily: 'Metropolis-SemiBold'
     },
-    pricing:{
-        flexDirection:'row',
-        alignItems:'center'
+    pricing: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    footer:{
-        flexDirection:'row',
-        alignItems:'center',
-        marginTop:5,
-        justifyContent:'space-between'
+    footer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
+        justifyContent: 'space-between'
     },
-    more:{
-        color:'#9f9f9f',
-        fontFamily:'Metropolis-Medium',
-        
+    more: {
+        color: '#9f9f9f',
+        fontFamily: 'Metropolis-Medium',
+
     },
-    button:{
-        backgroundColor:'#ED5A6B',
-        paddingHorizontal:15,
-        paddingVertical:5,
-        borderRadius:5,
-        marginRight:10
+    button: {
+        backgroundColor: '#ED5A6B',
+        paddingHorizontal: 15,
+        paddingVertical: 5,
+        borderRadius: 5,
+        marginRight: 10
     },
-    buttonText:{
-        fontFamily:'Metropolis-SemiBold',
-        color:'white',
-        textTransform:'uppercase'
+    buttonText: {
+        fontFamily: 'Metropolis-SemiBold',
+        color: 'white',
+        textTransform: 'uppercase'
     }
 });
 

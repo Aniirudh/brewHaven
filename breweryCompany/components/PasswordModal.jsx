@@ -15,21 +15,20 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
 
     const showAlert = () => {
         setAlertVisible(true);
-      };
-    
-      // Function to close the custom alert
-      const closeAlert = () => {
+    };
+
+    // Function to close the custom alert
+    const closeAlert = () => {
         setAlertVisible(false);
-      };
+    };
 
     const loginHandler = async () => {
         try {
-            const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/auth/login/passcode-login", {
+            const response = await fetch("http://54.89.234.175:8080/auth/login/passcode-login", {
                 method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
+                headers: new Headers({
+                    "ngrok-skip-browser-warning": "69420",
+                }),
                 body: JSON.stringify({
                     username: email,
                     password: password,
@@ -39,73 +38,73 @@ const PasswordModal = ({ isVisible, onClose, navigation, email }) => {
             console.log("Raw response:", response);
 
             const responseData = await response.json();
-            if (responseData.jwrToken) {
-                const TOKEN = responseData.jwrToken;
+            // if (responseData.jwrToken) {
+            //     const TOKEN = responseData.jwrToken;
 
-                await AsyncStorage.setItem('authToken', TOKEN);
-                await AsyncStorage.setItem('userId', responseData.userId.toString());
+            //     await AsyncStorage.setItem('authToken', TOKEN);
+            //     await AsyncStorage.setItem('userId', responseData.userId.toString());
 
-                console.log("token in login", TOKEN)
-                dispatch(setAuthToken({ authToken: TOKEN }));
-                dispatch(setUserId({ userId: responseData.userId }));
-                navigation.replace('HomeLoading');
-            } else {
-                console.log("Authentication failed");
-            }
+            //     console.log("token in login", TOKEN)
+            //     dispatch(setAuthToken({ authToken: TOKEN }));
+            //     dispatch(setUserId({ userId: responseData.userId }));
+            //     navigation.replace('HomeLoading');
+            // } else {
+            //     console.log("Authentication failed");
+            // }
 
 
         } catch (error) {
             console.error("Error sending authentication request:", error);
-            showAlert(); 
+            showAlert();
         }
     };
 
     return (
         <View>
-        <Modal
-            onBackdropPress={onClose}
-            onBackButtonPress={onClose}
-            isVisible={isVisible}
-            style={styles.modal}>
-            <View style={styles.modalContent}>
-                {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
+            <Modal
+                onBackdropPress={onClose}
+                onBackButtonPress={onClose}
+                isVisible={isVisible}
+                style={styles.modal}>
+                <View style={styles.modalContent}>
+                    {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
                         <Icon name="closecircle" color='black' size={25}/>
                     </TouchableOpacity> */}
 
-                <View>
-                    <View style={styles.center}>
-                        {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
+                    <View>
+                        <View style={styles.center}>
+                            {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
                                         <Icon name="closecircle" color='black' size={25} />
                                     </TouchableOpacity> */}
-                    </View>
-                    <View>
-                        <View style={styles.modalContentContainer}>
-                            <TextInput
-                                value={password}
-                                autoComplete='sms-otp'
-                                autoFocus
-                                style={styles.input}
-                                placeholder='Password'
-                                placeholderTextColor={'#4f4f4f'}
-                                onChangeText={(text) => setPassword(text)}
-                                secureTextEntry />
-                            <View style={{ justifyContent: "flex-end" }}>
-                                <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
-                                    <Text style={styles.buttonText}>Login</Text>
-                                </TouchableOpacity>
-                                <Text style={styles.registerText} onPress={() => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
-                            </View>
                         </View>
                         <View>
+                            <View style={styles.modalContentContainer}>
+                                <TextInput
+                                    value={password}
+                                    autoComplete='sms-otp'
+                                    autoFocus
+                                    style={styles.input}
+                                    placeholder='Password'
+                                    placeholderTextColor={'#4f4f4f'}
+                                    onChangeText={(text) => setPassword(text)}
+                                    secureTextEntry />
+                                <View style={{ justifyContent: "flex-end" }}>
+                                    <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
+                                        <Text style={styles.buttonText}>Login</Text>
+                                    </TouchableOpacity>
+                                    <Text style={styles.registerText} onPress={() => navigation.navigate('ForgotPassword')}>Forgot Password?</Text>
+                                </View>
+                            </View>
+                            <View>
 
+                            </View>
                         </View>
+
                     </View>
 
                 </View>
-
-            </View>
-        </Modal>
-        <AwesomeAlert
+            </Modal>
+            <AwesomeAlert
                 show={alertVisible}
                 showProgress={false}
                 title="Authentication Failed"

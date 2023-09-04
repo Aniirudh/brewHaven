@@ -16,7 +16,7 @@ const Profile = ({ navigation }) => {
     const [user, setUser] = useState(null)
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/userwithaddress/${userId.userId}`, {
+            fetch(`http://54.89.234.175:8080/userwithaddress/${userId.userId}`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -48,7 +48,7 @@ const Profile = ({ navigation }) => {
         };
         console.log(authToken.authToken)
         try {
-            const response = await fetch(`https://2ab7-103-130-108-22.ngrok-free.app/delete_addresse/${addressId}`, {
+            const response = await fetch(`http://54.89.234.175:8080/delete_addresse/${addressId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -113,8 +113,8 @@ const Profile = ({ navigation }) => {
                     <Text style={styles.text}>{user?.phoneNumber}</Text>
                     <Text style={styles.text}>{user?.email}</Text>
                     <View>
-                        <TouchableOpacity activeOpacity={.7} onPress={toggleReviewsVisibility} style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
-                            <Text style={[ styles.name, styles.textContainer]}>Saved addresses</Text>
+                        <TouchableOpacity activeOpacity={.7} onPress={toggleReviewsVisibility} style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                            <Text style={[styles.name, styles.textContainer]}>Saved addresses</Text>
                             <RIcon name={iconName} color="#7f7f7f" size={25} />
                         </TouchableOpacity>
 
@@ -138,16 +138,16 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View >
-                        <TouchableOpacity onPress={() => navigation.navigate("OrderHistory")}  style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
-                            <Text style={[ styles.name, styles.textContainer]}>Past orders</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("OrderHistory")} style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                            <Text style={[styles.name, styles.textContainer]}>Past orders</Text>
                             <RIcon name="chevron-forward" color="#7f7f7f" size={25} />
-                            </TouchableOpacity>
+                        </TouchableOpacity>
                     </View>
                     <View >
-                        <TouchableOpacity onPress={() => navigation.navigate("ResetPassword",{email: user?.email})}  style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems:"center" }}>
-                            <Text style={[ styles.name, styles.textContainer]}>Reset password</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("ResetPassword", { email: user?.email })} style={{ borderBottomWidth: 1, borderBottomColor: "silver", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                            <Text style={[styles.name, styles.textContainer]}>Reset password</Text>
                             <RIcon name="chevron-forward" color="#7f7f7f" size={25} />
-                            </TouchableOpacity>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <TouchableOpacity style={styles.logoutButton} onPress={logoutHandler}>
@@ -218,16 +218,16 @@ const styles = StyleSheet.create({
         alignItems: "flex-end"
     },
     logoutButton: {
-        flexDirection:"row",
+        flexDirection: "row",
         backgroundColor: 'red',
         marginHorizontal: 15,
         marginTop: 20,
         paddingVertical: 10,
         borderRadius: 5,
         alignItems: 'center',
-        justifyContent:"center",
-        
-        width:"30%"
+        justifyContent: "center",
+
+        width: "30%"
     },
     logoutButtonText: {
         color: 'white',

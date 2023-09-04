@@ -10,7 +10,7 @@ const Food = ({ navigation }) => {
 
     useEffect(() => {
         if (authToken.authToken) {
-            fetch(`https://2ab7-103-130-108-22.ngrok-free.app/foods`, {
+            fetch(`http://54.89.234.175:8080/foods`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authToken.authToken}`,
@@ -33,17 +33,17 @@ const Food = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <View style={styles.line} />
-                                <View>
-                                    <Text style={styles.heading}>Chef's best</Text>
-                                </View>
-                                <View style={styles.line} />
-                            </View>
+                <View style={styles.line} />
+                <View>
+                    <Text style={styles.heading}>Chef's best</Text>
+                </View>
+                <View style={styles.line} />
+            </View>
             <FlatList
                 horizontal
                 data={food}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({ item }) => <FoodCard navigation={navigation} item={item} foodId={item.id} id={item.id} name={item.food_name} imageUrl={item.image_url} rating={item.averageRating} price={item.food_price} size_ml={null}/>}
+                renderItem={({ item }) => <FoodCard navigation={navigation} item={item} foodId={item.id} id={item.id} name={item.food_name} imageUrl={item.image_url} rating={item.averageRating} price={item.food_price} size_ml={null} />}
             />
         </View>
     );

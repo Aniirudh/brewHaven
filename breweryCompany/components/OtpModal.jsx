@@ -14,16 +14,16 @@ const OtpModal = ({ isVisible, onClose, navigation }) => {
     const dispatch = useDispatch()
     const showAlert = () => {
         setAlertVisible(true);
-      };
-    
-      // Function to close the custom alert
-      const closeAlert = () => {
+    };
+
+    // Function to close the custom alert
+    const closeAlert = () => {
         setAlertVisible(false);
-      };
+    };
 
     const loginHandler = async () => {
         try {
-            const response = await fetch("https://2ab7-103-130-108-22.ngrok-free.app/auth/login/otp-login2", {
+            const response = await fetch("http://54.89.234.175:8080/auth/login/otp-login2", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -44,62 +44,62 @@ const OtpModal = ({ isVisible, onClose, navigation }) => {
                 navigation.replace('HomeLoading');
             } else {
                 console.log("Authentication failed");
-                showAlert(); 
+                showAlert();
             }
 
             dispatch(setUserId({ userId: responseData.userId }));
         } catch (error) {
             console.error("Error sending authentication request:", error);
-            showAlert(); 
+            showAlert();
         }
 
     };
     return (
         <View>
-        <Modal
-            onBackdropPress={onClose}
-            onBackButtonPress={onClose}
-            isVisible={isVisible}
-            style={styles.modal}>
-            <View style={styles.modalContent}>
-                {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
+            <Modal
+                onBackdropPress={onClose}
+                onBackButtonPress={onClose}
+                isVisible={isVisible}
+                style={styles.modal}>
+                <View style={styles.modalContent}>
+                    {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
                         <Icon name="closecircle" color='black' size={25}/>
                     </TouchableOpacity> */}
 
-                <View>
-                    <View style={styles.center}>
-                        {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
+                    <View>
+                        <View style={styles.center}>
+                            {/* <TouchableOpacity style={styles.closeButton} onPress={toggleDetailModal}>
                                         <Icon name="closecircle" color='black' size={25} />
                                     </TouchableOpacity> */}
-                    </View>
-                    <View>
-                        <View style={styles.modalContentContainer}>
-                            <TextInput
-                                value={otp}
-                                autoComplete='sms-otp'
-                                autoFocus
-                                inputmode='numeric'
-                                keyboardType="numeric"
-                                style={styles.input}
-                                placeholder='Enter OTP'
-                                placeholderTextColor={'#4f4f4f'}
-                                onChangeText={(text) => setOtp(text)}
-                                secureTextEntry />
-                            <View style={{ justifyContent: "flex-end" }}>
-                                <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
-                                    <Text style={styles.buttonText}>Login with OTP</Text>
-                                </TouchableOpacity></View>
                         </View>
                         <View>
+                            <View style={styles.modalContentContainer}>
+                                <TextInput
+                                    value={otp}
+                                    autoComplete='sms-otp'
+                                    autoFocus
+                                    inputmode='numeric'
+                                    keyboardType="numeric"
+                                    style={styles.input}
+                                    placeholder='Enter OTP'
+                                    placeholderTextColor={'#4f4f4f'}
+                                    onChangeText={(text) => setOtp(text)}
+                                    secureTextEntry />
+                                <View style={{ justifyContent: "flex-end" }}>
+                                    <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
+                                        <Text style={styles.buttonText}>Login with OTP</Text>
+                                    </TouchableOpacity></View>
+                            </View>
+                            <View>
 
+                            </View>
                         </View>
+
                     </View>
 
                 </View>
-
-            </View>
-        </Modal>
-        <AwesomeAlert
+            </Modal>
+            <AwesomeAlert
                 show={alertVisible}
                 showProgress={false}
                 title="Authentication Failed"

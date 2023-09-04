@@ -7,35 +7,35 @@ import { Cart } from '../components/Cart';
 import { useSelector } from 'react-redux';
 import { selectAuthToken } from '../features/userSlice';
 import Banner from '../components/Banner';
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Food from '../components/Food';
 
 const Home = ({ navigation }) => {
-    const authToken =useSelector(selectAuthToken)
+    const authToken = useSelector(selectAuthToken)
     const [beer, setBeer] = useState([]);
     console.log(authToken.authToken)
-console.log("Token in home",authToken.authToken)
-useEffect(() => {
-    if (authToken.authToken) {
-        fetch(`https://2ab7-103-130-108-22.ngrok-free.app/beers`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${authToken.authToken}`,
-            Accept: "application/json",
-  "Content-Type": "application/json",
-          },
-        })
-        .then(response => {
-          console.log('Response:', response);
-          return response.json();
-        })
-        .then(data => {
-          setBeer(data);
-        })
-        .catch(error => {
-          console.error("Error sending authentication request:", error);
-        });
-      }
+    console.log("Token in home", authToken.authToken)
+    useEffect(() => {
+        if (authToken.authToken) {
+            fetch(`http://54.89.234.175:8080/beers/Highrated`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${authToken.authToken}`,
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(response => {
+                    console.log('Response:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    setBeer(data);
+                })
+                .catch(error => {
+                    console.error("Error sending authentication request:", error);
+                });
+        }
     }, [authToken.authToken]);
 
 
@@ -56,15 +56,15 @@ useEffect(() => {
 
     return (
         <View style={{ flex: 1 }}>
-            <Header navigation={navigation} beer={beer}/>
-            
+            <Header navigation={navigation} beer={beer} />
+
             <FlatList
                 data={beer}
                 ListHeaderComponent={() => (
                     <View style={{ marginLeft: 10 }}>
                         <Banner />
                         <Categories navigation={navigation} />
-                        <Food navigation={navigation}/>
+                        <Food navigation={navigation} />
                         <View style={styles.headingContainer}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={styles.line} />
@@ -76,12 +76,12 @@ useEffect(() => {
                         </View>
                     </View>
                 )}
-               
+
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}
                 contentContainerStyle={styles.contentContainer}
             />
-            
+
             <Cart navigation={navigation} />
         </View>
     );

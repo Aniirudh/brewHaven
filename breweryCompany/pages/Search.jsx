@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, onPress } from 'react-native'
 import React, { useState } from 'react'
 import SearchBox from '../components/SearchBox'
 import SearchResults from '../components/SearchResults'
@@ -42,7 +42,7 @@ const Search = ({ navigation, route }) => {
           numColumns={2} // Set the number of columns to 2
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.topSearches}>
+            <TouchableOpacity style={styles.topSearches} key={item.id}>
               <Icon name="repeat" size={20} color="#4f4f4f" />
               <Text style={styles.text}>{item}</Text>
             </TouchableOpacity>

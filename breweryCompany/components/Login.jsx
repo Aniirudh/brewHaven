@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     fontFamily: "Metropolis-Medium"
   },
   button: {
-    backgroundColor: '#FFBD31',
+    backgroundColor: '#FC3839',
     height: '15%',
     widht: '100%',
     alignItems: 'center',

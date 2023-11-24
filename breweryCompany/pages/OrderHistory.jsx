@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectAuthToken, selectUserId } from '../features/userSlice';
 import RIcon from 'react-native-vector-icons/MaterialIcons'
 import { setOrigin } from '../features/navSlice';
-import BIcon from 'react-native-vector-icons/Ionicons'
 
 const OrderHistory = ({navigation}) => {
 
@@ -42,7 +41,6 @@ const OrderHistory = ({navigation}) => {
       
         return (
           <View style={styles.orderContainer}>
-            
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
               <Text style={styles.orderHeaderText}>Order #{item.id}  </Text>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -92,9 +90,6 @@ const OrderHistory = ({navigation}) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.orderHistory}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <BIcon name="chevron-back" size={25} color="black" />
-                    </TouchableOpacity>
                 <Text style={{ color: "black", textTransform: "uppercase", fontFamily: "Metropolis-Bold" }}>Order History</Text>
             </View>
             <FlatList
@@ -112,9 +107,8 @@ const styles = StyleSheet.create({
     orderHistory: {
         backgroundColor: "white",
         paddingVertical: 15,
-        alignItems: "center",
-        flexDirection:"row",
-        paddingHorizontal:10
+        justifyContent: "center",
+        alignItems: "center"
     },
     orderContainer: {
         minHight: 160,

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect,useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import * as Progress from 'react-native-progress'
 import MapView, { Marker } from 'react-native-maps'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -67,7 +67,7 @@ const Map = ({ navigation}) => {
 }, [authToken.authToken]);
 console.log(order)
     return (
-        <ScrollView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 5 ,backgroundColor:"white",borderWidth:1,borderRadius:10,marginVertical:2,marginHorizontal:5,borderColor:"white"}}>
                 <TouchableOpacity style={styles.closeIcon} onPress={() => navigation.navigate('Home')}>
                     <Icon name="close" size={25} color="black" />
@@ -148,7 +148,7 @@ console.log(order)
                 <OrderSummary cartItems={order?.cartItems} currentOrder={order}/>
             </View>
         </View>
-  </ScrollView>
+  </View>
     )
 }
 

@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { selectAuthToken, selectUserId } from '../features/userSlice';
-import { useSelector, useDispatch } from 'react-redux';
 
 
 const SearchBox = ({ fetchUrl, onResults }) => {
   const [input, setInput] = useState('');
   const [results, setResults] = useState([]);
-  const authToken = useSelector(selectAuthToken);
-    const userId = useSelector(selectUserId)
 
   const getData = async (value) => {
     try {
-      const response = await fetch(fetchUrl,{
-        method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${authToken.authToken}`,
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                },
-      } );
+      const response = await fetch(fetchUrl);
       if (!response.ok) {
         throw new Error(`Response not OK: ${response.status}`);
       }
@@ -57,7 +46,7 @@ const SearchBox = ({ fetchUrl, onResults }) => {
         <TextInput
           style={styles.searchbox}
           value={input}
-          placeholder="Search Beers"
+          placeholder="Search Movies"
           onChangeText={(value) => setInput(value)}
           placeholderTextColor="#a8a8a8"
         />
